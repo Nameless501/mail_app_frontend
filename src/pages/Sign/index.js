@@ -1,27 +1,29 @@
-import { Container, Stack, Alert } from 'react-bootstrap';
+import { Container, Stack } from 'react-bootstrap';
+import { useAuthorizationContext } from '../../contexts/AuthorizationContext';
+import useFormStateAndValidation from '../../hooks/useFormStateAndValidation';
+import SignForm from './components/SignForm';
+import { defaultSignValues, eventsConfig } from '../../utils/configs';
 
 function Sign() {
+    const { emitEvent } = useAuthorizationContext();
+
+    const { inputsValue, handleChange } =
+        useFormStateAndValidation(defaultSignValues);
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+        emitEvent(eventsConfig.authorization, inputsValue.name);
+    }
+
     return (
         <Stack gap={3}>
-            <h2 className="text-center"></h2>
+            <h2 className="text-center">Hello</h2>
             <Container className="col-xs-10 col-md-8 col-lg-6 bg-light p-3">
-                {/*<SignForm*/}
-                {/*    inputs={signFormConfig.inputs[location.pathname]}*/}
-                {/*    handleChange={handleChange}*/}
-                {/*    inputsValue={inputsValue}*/}
-                {/*    isValid={formIsValid}*/}
-                {/*    errorMessages={errorMessages}*/}
-                {/*    handleSubmit={handleSubmit}*/}
-                {/*    isLoading={status === 'pending'}*/}
-                {/*/>*/}
-                {/*{status === 'rejected' && error && (*/}
-                {/*    <Alert*/}
-                {/*        variant="danger"*/}
-                {/*        className="text-center p-2 mb-0 mt-2"*/}
-                {/*    >*/}
-                {/*        {error}*/}
-                {/*    </Alert>*/}
-                {/*)}*/}
+                <SignForm
+                    handleSubmit={handleSubmit}
+                    inputsValue={inputsValue}
+                    handleChange={handleChange}
+                />
             </Container>
         </Stack>
     );

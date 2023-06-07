@@ -1,31 +1,21 @@
-import { Form, Button, Stack, Spinner } from 'react-bootstrap';
+import { Form, Button, Stack } from 'react-bootstrap';
 import FormInput from './FormInput';
 
-function SignForm({
-    inputs = [],
-    handleChange,
-    inputsValue = {},
-    isValid = false,
-    errorMessages,
-    handleSubmit,
-    isLoading,
-}) {
+function SignForm({ handleChange, inputsValue = {}, handleSubmit }) {
     return (
         <Form onSubmit={handleSubmit}>
             <Stack gap={4}>
-                <FormInput />
+                <FormInput
+                    handleChange={handleChange}
+                    value={inputsValue.name}
+                />
                 <Button
-                    variant="primary"
+                    variant="success"
                     type="submit"
                     size="lg"
-                    disabled={!isValid}
                     className="mt-2 col-md-4 offset-md-4"
                 >
-                    {isLoading ? (
-                        <Spinner animation="border" size="sm" role="status" />
-                    ) : (
-                        'Submit'
-                    )}
+                    Enter
                 </Button>
             </Stack>
         </Form>

@@ -1,8 +1,12 @@
 import { Col, Container, Navbar, Row } from 'react-bootstrap';
 import Logo from './Logo';
 import ProfileMenu from './ProfileMenu';
+import { useAuthorizationContext } from '../contexts/AuthorizationContext';
 
 function Header() {
+    const { userData, isAuthorized, closeConnection } =
+        useAuthorizationContext();
+
     return (
         <header>
             <Navbar expand="md" bg="dark" variant="dark">
@@ -12,11 +16,13 @@ function Header() {
                             <Logo />
                         </Col>
                         <Col className="my-auto col-auto">
-                            <ProfileMenu
-                                handleClick={() => ''}
-                                name={'User name'}
-                                disabled={false}
-                            />
+                            {isAuthorized && (
+                                <ProfileMenu
+                                    handleClick={closeConnection}
+                                    name={userData.user.name}
+                                    disabled={false}
+                                />
+                            )}
                         </Col>
                     </Row>
                 </Container>

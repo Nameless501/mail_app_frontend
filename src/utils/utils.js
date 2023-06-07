@@ -1,15 +1,6 @@
-import { apiErrorsConfig } from './configs';
-
-export function handleThunkPending(state) {
-    state.status = 'pending';
-}
-
-export function handleThunkRejected(state, { payload }) {
-    state.error = apiErrorsConfig[payload];
-    state.status = 'rejected';
-}
-
-export function handleThunkFulfilled(state) {
-    state.error = '';
-    state.status = 'fulfilled';
+export function getFormattedDate(date) {
+    return new Date(Date.parse(date)).toLocaleDateString('ru-RU', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
 }

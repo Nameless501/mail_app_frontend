@@ -1,41 +1,37 @@
 import { useCallback, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { validationConfig } from '../utils/configs';
 
-function useFormStateAndValidation(validationSchema) {
-    const [inputsValue, setInputsValues] = useState({});
+function useFormStateAndValidation(initialValue = {}) {
+    const [inputsValue, setInputsValues] = useState(initialValue);
 
     const [errorMessages, setErrorMessages] = useState({});
 
     const [formIsValid, setFormValidity] = useState(false);
 
-    const location = useLocation();
+    // function handleErrorMessage(name, message) {
+    //     setErrorMessages((current) => ({
+    //         ...current,
+    //         [name]: message,
+    //     }));
+    // }
 
-    function handleErrorMessage(name, message) {
-        setErrorMessages((current) => ({
-            ...current,
-            [name]: message,
-        }));
-    }
+    // function checkInputValidity(name, value) {
+    //     try {
+    //         validationConfig[name].validateSync(value);
+    //         handleErrorMessage(name, '');
+    //     } catch (err) {
+    //         handleErrorMessage(name, err.message);
+    //     }
+    // }
 
-    function checkInputValidity(name, value) {
-        try {
-            validationConfig[name].validateSync(value);
-            handleErrorMessage(name, '');
-        } catch (err) {
-            handleErrorMessage(name, err.message);
-        }
-    }
-
-    function checkFormValidity(value) {
-        setFormValidity(() => validationSchema.isValidSync(value));
-    }
+    // function checkFormValidity(value) {
+    //     setFormValidity(() => validationSchema.isValidSync(value));
+    // }
 
     function handleChange(evt) {
         const { name, value } = evt.target;
         const current = { ...inputsValue, [name]: value };
-        checkInputValidity(name, value);
-        checkFormValidity(current);
+        // checkInputValidity(name, value);
+        // checkFormValidity(current);
         setInputsValues(current);
     }
 
@@ -50,7 +46,7 @@ function useFormStateAndValidation(validationSchema) {
 
     useEffect(() => {
         resetFormValues();
-    }, [location, resetFormValues]);
+    }, [resetFormValues]);
 
     return {
         inputsValue,

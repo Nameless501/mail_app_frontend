@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { routesConfig } from '../utils/configs';
 import { Spinner, Container } from 'react-bootstrap';
+import { useAuthorizationContext } from '../contexts/AuthorizationContext';
 
 function PrivateRoutes() {
     const [isAllowed, setIsAllowed] = useState();
 
-    const { status, isAuthorized } = useSelector((state) => state.currentUser);
+    const { isAuthorized } = useAuthorizationContext();
 
     useEffect(() => {
-        if (status !== 'pending' && status !== 'idle') {
-            setIsAllowed(isAuthorized);
-        }
-    }, [isAuthorized, status]);
+        setIsAllowed(isAuthorized);
+    }, [isAuthorized]);
 
     if (isAllowed === undefined)
         return (
