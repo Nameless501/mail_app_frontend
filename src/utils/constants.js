@@ -1,4 +1,4 @@
-export const BASE_API_URL = 'http://localhost:8080';
+export const BASE_API_URL = 'task6api-production.up.railway.app';
 
 export const VALIDATION_ERROR_MESSAGE = 'Required field';
 
