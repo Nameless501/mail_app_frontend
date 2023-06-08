@@ -1,11 +1,12 @@
 import { Container, Stack } from 'react-bootstrap';
 import { useWebSocketContext } from '../../contexts/WebSocketContext';
 import useFormStateAndValidation from '../../hooks/useFormStateAndValidation';
-import SignForm from './components/SignForm';
-import { defaultSignValues, eventsConfig } from '../../utils/configs';
+import DefaultErrorAlert from '../../components/DefaultErrorAlert';
+import FormFromConfig from "../../components/FormFromConfig";
+import {defaultSignValues, eventsConfig, signInFormConfig} from '../../utils/configs';
 
 function Sign() {
-    const { emitEvent, autocompleteHint } = useWebSocketContext();
+    const { emitEvent, autocompleteHint, isError } = useWebSocketContext();
 
     const {
         inputsValue,
@@ -22,18 +23,20 @@ function Sign() {
 
     return (
         <Stack gap={3}>
-            <h2 className="text-center">Hello</h2>
-            <Container className="col-xs-10 col-md-8 col-lg-6 bg-light p-3">
-                <SignForm
+            <h2 className="text-center h1">Hello</h2>
+            <Container className="col-10">
+                <FormFromConfig
                     handleSubmit={handleSubmit}
                     inputsValue={inputsValue}
                     setAutocomplete={setAutocomplete}
                     handleChange={handleChange}
                     isValid={formIsValid}
-                    errors={errorMessages}
+                    errorMessages={errorMessages}
                     options={autocompleteHint}
+                    config={signInFormConfig}
                 />
             </Container>
+            {isError && <DefaultErrorAlert />}
         </Stack>
     );
 }

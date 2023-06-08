@@ -13,30 +13,25 @@ function App() {
     return (
         <WebSocketContextProvider>
             <ModalContextProvider>
-                <div>
-                    <Stack gap={5}>
-                        <Header />
-                        <Routes>
-                            <Route element={<PrivateRoutes />}>
-                                <Route
-                                    path={routesConfig.main}
-                                    element={<Main />}
-                                    exact
-                                />
-                            </Route>
+                <Stack gap={5}>
+                    <Header />
+                    <Routes>
+                        <Route element={<PrivateRoutes />}>
                             <Route
-                                path={routesConfig.signIn}
-                                element={<Sign />}
+                                path={routesConfig.main}
+                                element={<Main />}
+                                exact
                             />
-                            <Route
-                                path="*"
-                                element={
-                                    <Navigate to={routesConfig.main} replace />
-                                }
-                            />
-                        </Routes>
-                    </Stack>
-                </div>
+                        </Route>
+                        <Route path={routesConfig.signIn} element={<Sign />} />
+                        <Route
+                            path="*"
+                            element={
+                                <Navigate to={routesConfig.main} replace />
+                            }
+                        />
+                    </Routes>
+                </Stack>
                 <MessageNotification />
             </ModalContextProvider>
         </WebSocketContextProvider>

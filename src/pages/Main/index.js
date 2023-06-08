@@ -8,10 +8,11 @@ import {
     navTabsConfig,
     tabPanesConfig,
     defaultMessageValues,
-    eventsConfig,
+    eventsConfig, messageFormConfig,
 } from '../../utils/configs';
 import MessagesListTab from './components/MessagesListTab';
 import WriteMessageTab from './components/WriteMessageTab';
+import DefaultErrorAlert from '../../components/DefaultErrorAlert';
 
 function Main() {
     const [activeTab, setActiveTab] = useState(navTabsConfig.default);
@@ -25,7 +26,8 @@ function Main() {
         resetFormValues,
     } = useFormStateAndValidation(defaultMessageValues);
 
-    const { userData, autocompleteHint, emitEvent } = useWebSocketContext();
+    const { userData, isError, autocompleteHint, emitEvent } =
+        useWebSocketContext();
 
     const handleTabSelect = (eventKey) => setActiveTab(eventKey);
 
@@ -52,29 +54,36 @@ function Main() {
                         <NavLinks activeTab={activeTab} />
                     </Row>
                     <Row>
-                        <Tab.Content className="p-0">
-                            <MessagesListTab
-                                eventKey={tabPanesConfig.inbox}
-                                variant="primary"
-                                messages={filterUserMessages('to')}
-                            />
-                            <MessagesListTab
-                                eventKey={tabPanesConfig.sent}
-                                variant="success"
-                                messages={filterUserMessages('from')}
-                            />
-                            <WriteMessageTab
-                                eventKey={tabPanesConfig.write}
-                                inputsValue={inputsValue}
-                                handleChange={handleChange}
-                                handleSubmit={handleSubmit}
-                                setAutocomplete={setAutocomplete}
-                                errorMessages={errorMessages}
-                                isValid={formIsValid}
-                                options={autocompleteHint}
-                                messages={userData.messages}
-                            />
-                        </Tab.Content>
+                        {!isError ? (
+                            <>
+                                <Tab.Content className="p-0">
+                                    <MessagesListTab
+                                        eventKey={tabPanesConfig.inbox}
+                                        variant="primary"
+                                        messages={filterUserMessages('to')}
+                                    />
+                                    <MessagesListTab
+                                        eventKey={tabPanesConfig.sent}
+                                        variant="success"
+                                        messages={filterUserMessages('from')}
+                                    />
+                                    <WriteMessageTab
+                                        eventKey={tabPanesConfig.write}
+                                        inputsValue={inputsValue}
+                                        handleChange={handleChange}
+                                        handleSubmit={handleSubmit}
+                                        setAutocomplete={setAutocomplete}
+                                        errorMessages={errorMessages}
+                                        isValid={formIsValid}
+                                        options={autocompleteHint}
+                                        messages={userData.messages}
+                                        config={messageFormConfig}
+                                    />
+                                </Tab.Content>
+                            </>
+                        ) : (
+                            <DefaultErrorAlert />
+                        )}
                     </Row>
                 </Stack>
             </Tab.Container>

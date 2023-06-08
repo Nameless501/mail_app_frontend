@@ -58,41 +58,50 @@ export const webSocketConfig = {
     },
 };
 
-export const messageFormConfig = [
-    {
-        label: 'To:',
-        placeholder: 'Username',
-        id: 'receiver-input',
-        name: 'to',
-        required: true,
-        autocomplete: true,
-    },
-    {
-        label: 'Subject:',
-        placeholder: 'Subject',
-        id: 'subject-input',
-        name: 'subject',
-        required: true,
-        autocomplete: false,
-    },
-    {
-        label: 'Message:',
-        placeholder: '',
-        id: 'message-input',
-        name: 'message',
-        required: true,
-        rows: 4,
-        as: 'textarea',
-        size: 'lg',
-        autocomplete: false,
-    },
-];
+export const messageFormConfig = {
+    inputs: [
+        {
+            label: 'To:',
+            placeholder: 'Username',
+            id: 'receiver-input',
+            name: 'to',
+            required: true,
+            autocomplete: true,
+        },
+        {
+            label: 'Subject:',
+            placeholder: 'Subject',
+            id: 'subject-input',
+            name: 'subject',
+            required: true,
+            autocomplete: false,
+        },
+        {
+            label: 'Message:',
+            placeholder: '',
+            id: 'message-input',
+            name: 'message',
+            required: true,
+            rows: 4,
+            as: 'textarea',
+            size: 'lg',
+            autocomplete: false,
+        },
+    ],
+    button: 'Send',
+};
 
 export const signInFormConfig = {
-    label: 'Your name:',
-    placeholder: 'Enter your name',
-    id: 'name-input',
-    name: 'name',
-    required: true,
-    size: 'lg',
+    inputs: [
+        {
+            label: 'Your name:',
+            placeholder: 'Enter your name',
+            id: 'name-input',
+            name: 'name',
+            required: true,
+            size: 'lg',
+            autocomplete: true,
+        },
+    ],
+    button: 'Enter',
 };

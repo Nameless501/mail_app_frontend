@@ -28,8 +28,9 @@ function FormInputAutocomplete({
             value={value}
             id={id}
             options={options}
-            allowNew={true}
             caseSensitive={true}
+            flip={true}
+            highlightOnlyResult={true}
             size={size}
             placeholder={placeholder}
             isInvalid={!!error}

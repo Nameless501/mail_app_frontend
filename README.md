@@ -1,6 +1,6 @@
 # <p align="center">Задание 6 (front-end)</p>
 
-<div align="center"><a href="task6frontend-production.up.railway.app">Ссылка на сайт</a></div>
+<div align="center"><a href="https://task6frontend-production.up.railway.app">Ссылка на сайт</a></div>
 
 ---
 

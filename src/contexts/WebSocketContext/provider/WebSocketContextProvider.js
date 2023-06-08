@@ -19,6 +19,8 @@ export function WebSocketContextProvider({ children }) {
 
     const [autocompleteHint, setAutocompleteHint] = useState([]);
 
+    const [isError, setIsError] = useState(false);
+
     const webSocketRef = useRef();
 
     const navigate = useNavigate();
@@ -73,6 +75,7 @@ export function WebSocketContextProvider({ children }) {
         webSocketRef.current.on(eventsConfig.autocomplete, (data) =>
             setAutocompleteHint(data)
         );
+        webSocketRef.current.on(eventsConfig.error, () => setIsError(true));
     }, [handleNewMessage, saveMessage, saveUserData]);
 
     function signOut() {
@@ -85,6 +88,7 @@ export function WebSocketContextProvider({ children }) {
     useEffect(() => {
         webSocketRef.current = io(webSocketConfig.url, webSocketConfig.options);
         setEventListeners();
+        setIsError(false);
         emitEvent(eventsConfig.autocomplete);
     }, [setEventListeners, emitEvent]);
 
@@ -92,6 +96,7 @@ export function WebSocketContextProvider({ children }) {
         <WebSocketContext.Provider
             value={{
                 isAuthorized,
+                isError,
                 userData,
                 newMessages,
                 autocompleteHint,

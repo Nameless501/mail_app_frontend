@@ -1,6 +1,6 @@
 import { Stack, Tab } from 'react-bootstrap';
-import MessageForm from './MessageForm';
 import MessagesList from './MessagesList';
+import FormFromConfig from "../../../components/FormFromConfig";
 
 function WriteMessageTab(props) {
     const previousMessages = props.messages.filter(
@@ -11,7 +11,7 @@ function WriteMessageTab(props) {
     return (
         <Tab.Pane eventKey={props.eventKey}>
             <Stack gap={4}>
-                <MessageForm {...props} />
+                <FormFromConfig {...props} />
                 {previousMessages.length > 0 && (
                     <Stack className="" gap={3}>
                         <h4 className="h4 text-center">Previous messages</h4>
