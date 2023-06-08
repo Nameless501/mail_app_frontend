@@ -18,7 +18,7 @@ function Sign() {
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        emitEvent(eventsConfig.authorization, inputsValue.name);
+        emitEvent(eventsConfig.authorization, inputsValue);
     }
 
     return (
