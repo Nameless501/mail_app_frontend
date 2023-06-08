@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Stack } from 'react-bootstrap';
-import { AuthorizationContextProvider } from './contexts/AuthorizationContext';
+import { WebSocketContextProvider } from './contexts/WebSocketContext';
 import { ModalContextProvider } from './contexts/ModalContext';
 import Header from './components/Header';
 import PrivateRoutes from './components/PrivateRoutes';
@@ -11,7 +11,7 @@ import { routesConfig } from './utils/configs';
 
 function App() {
     return (
-        <AuthorizationContextProvider>
+        <WebSocketContextProvider>
             <ModalContextProvider>
                 <div>
                     <Stack gap={5}>
@@ -39,7 +39,7 @@ function App() {
                 </div>
                 <MessageNotification />
             </ModalContextProvider>
-        </AuthorizationContextProvider>
+        </WebSocketContextProvider>
     );
 }
 

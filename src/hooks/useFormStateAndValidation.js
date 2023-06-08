@@ -1,4 +1,5 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
+import { VALIDATION_ERROR_MESSAGE } from '../utils/constants';
 
 function useFormStateAndValidation(initialValue = {}) {
     const [inputsValue, setInputsValues] = useState(initialValue);
@@ -7,32 +8,46 @@ function useFormStateAndValidation(initialValue = {}) {
 
     const [formIsValid, setFormValidity] = useState(false);
 
-    // function handleErrorMessage(name, message) {
-    //     setErrorMessages((current) => ({
-    //         ...current,
-    //         [name]: message,
-    //     }));
-    // }
+    const clearAutocompleteRef = useRef(null);
 
-    // function checkInputValidity(name, value) {
-    //     try {
-    //         validationConfig[name].validateSync(value);
-    //         handleErrorMessage(name, '');
-    //     } catch (err) {
-    //         handleErrorMessage(name, err.message);
-    //     }
-    // }
+    function handleErrorMessage(name, message) {
+        setErrorMessages((current) => ({
+            ...current,
+            [name]: message,
+        }));
+    }
 
-    // function checkFormValidity(value) {
-    //     setFormValidity(() => validationSchema.isValidSync(value));
-    // }
+    function checkInputValidity(name, validationMessage) {
+        const message = validationMessage ? VALIDATION_ERROR_MESSAGE : '';
+        handleErrorMessage(name, message);
+    }
+
+    function checkFormValidity(input) {
+        setFormValidity(input.closest('form').checkValidity());
+    }
+
+    function saveInputValue(name, value) {
+        setInputsValues((cur) => ({
+            ...cur,
+            [name]: value,
+        }));
+    }
+
+    function handleInputControl(name, value, input, validationMessage) {
+        saveInputValue(name, value);
+        checkInputValidity(name, validationMessage);
+        checkFormValidity(input);
+    }
 
     function handleChange(evt) {
-        const { name, value } = evt.target;
-        const current = { ...inputsValue, [name]: value };
-        // checkInputValidity(name, value);
-        // checkFormValidity(current);
-        setInputsValues(current);
+        const { name, value, validationMessage } = evt.target;
+        handleInputControl(name, value, evt.target, validationMessage);
+    }
+
+    function setAutocomplete(value, input, clearAutocomplete) {
+        clearAutocompleteRef.current = clearAutocomplete;
+        const { name, validationMessage } = input;
+        handleInputControl(name, value, input, validationMessage);
     }
 
     const resetFormValues = useCallback(
@@ -40,6 +55,7 @@ function useFormStateAndValidation(initialValue = {}) {
             setInputsValues(newValues);
             setErrorMessages(newErrors);
             setFormValidity(newIsValid);
+            if (clearAutocompleteRef.current) clearAutocompleteRef.current();
         },
         [setInputsValues, setErrorMessages, setFormValidity]
     );
@@ -53,6 +69,7 @@ function useFormStateAndValidation(initialValue = {}) {
         errorMessages,
         formIsValid,
         handleChange,
+        setAutocomplete,
         resetFormValues,
     };
 }

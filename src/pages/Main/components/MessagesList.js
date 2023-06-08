@@ -2,7 +2,7 @@ import { ListGroup } from 'react-bootstrap';
 import { useModalContext } from '../../../contexts/ModalContext';
 import MessageCard from './MessageCard';
 
-function MessagesList({ place, messages = [] }) {
+function MessagesList({ variant, messages = [] }) {
     const { openModal } = useModalContext();
 
     return (
@@ -11,11 +11,11 @@ function MessagesList({ place, messages = [] }) {
                 <ListGroup.Item
                     action
                     className="p-1 border-0 border-bottom border-light"
-                    variant={place === 'inbox' ? 'primary' : 'success'}
+                    variant={variant}
                     onClick={openModal.bind(null, msg)}
-                    key={`${place}:${msg.id}`}
+                    key={msg.id}
                 >
-                    <MessageCard {...msg} place={place} />
+                    <MessageCard {...msg} />
                 </ListGroup.Item>
             ))}
         </ListGroup>

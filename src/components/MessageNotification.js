@@ -1,8 +1,11 @@
 import { ToastContainer, Toast } from 'react-bootstrap';
-import { useAuthorizationContext } from '../contexts/AuthorizationContext';
+import { useWebSocketContext } from '../contexts/WebSocketContext';
+import { useModalContext } from '../contexts/ModalContext';
 
 function MessageNotification() {
-    const { newMessages } = useAuthorizationContext();
+    const { newMessages } = useWebSocketContext();
+
+    const { openModal } = useModalContext();
 
     return (
         <ToastContainer
@@ -10,8 +13,12 @@ function MessageNotification() {
             className="px-3 py-4 position-fixed"
         >
             {newMessages.map((msg) => (
-                <Toast key={`toast:${msg.id}`}>
-                    <Toast.Header>
+                <Toast
+                    key={`toast:${msg.id}`}
+                    bg="ligth"
+                    onClick={() => openModal(msg)}
+                >
+                    <Toast.Header closeButton={false}>
                         <strong className="me-auto">{msg.from}</strong>
                         <small>now</small>
                     </Toast.Header>

@@ -1,20 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import AuthorizationContext from '../context/AuthorizationContext';
+import WebSocketContext from '../context/WebSocketContext';
 import {
     defaultUserDataValue,
     eventsConfig,
     routesConfig,
     webSocketConfig,
 } from '../../../utils/configs';
+import { NOTIFICATION_CLOSE_TIMEOUT } from '../../../utils/constants';
 
-export function AuthorizationContextProvider({ children }) {
+export function WebSocketContextProvider({ children }) {
     const [isAuthorized, setAuthorizationState] = useState(false);
 
     const [userData, setUserData] = useState(defaultUserDataValue);
 
     const [newMessages, setNewMessages] = useState([]);
+
+    const [autocompleteHint, setAutocompleteHint] = useState([]);
 
     const webSocketRef = useRef();
 
@@ -53,46 +56,50 @@ export function AuthorizationContextProvider({ children }) {
                     setNewMessages((cur) =>
                         cur.filter((msg) => msg.id !== data.id)
                     ),
-                5000
+                NOTIFICATION_CLOSE_TIMEOUT
             );
         },
         [saveMessage]
     );
 
-    function emitEvent(event, data) {
+    const emitEvent = useCallback((event, data) => {
         webSocketRef.current.emit(event, data);
-    }
+    }, []);
 
     const setEventListeners = useCallback(() => {
-        webSocketRef.current.on(eventsConfig.authorized, saveUserData);
-        webSocketRef.current.on(eventsConfig.messageSent, saveMessage);
-        webSocketRef.current.on(eventsConfig.newMessage, handleNewMessage);
+        webSocketRef.current.on(eventsConfig.authorization, saveUserData);
+        webSocketRef.current.on(eventsConfig.sendMessage, saveMessage);
+        webSocketRef.current.on(eventsConfig.incomingMessage, handleNewMessage);
+        webSocketRef.current.on(eventsConfig.autocomplete, (data) =>
+            setAutocompleteHint(data)
+        );
     }, [handleNewMessage, saveMessage, saveUserData]);
 
-    const closeConnection = useCallback(() => {
+    function signOut() {
+        emitEvent(eventsConfig.signOut, userData.user);
         setAuthorizationState(false);
         setUserData(defaultUserDataValue);
         setNewMessages([]);
-        // webSocketRef.current.close();
-    }, []);
+    }
 
     useEffect(() => {
         webSocketRef.current = io(webSocketConfig.url, webSocketConfig.options);
         setEventListeners();
-        return () => closeConnection();
-    }, [setEventListeners, closeConnection]);
+        emitEvent(eventsConfig.autocomplete);
+    }, [setEventListeners, emitEvent]);
 
     return (
-        <AuthorizationContext.Provider
+        <WebSocketContext.Provider
             value={{
                 isAuthorized,
                 userData,
                 newMessages,
+                autocompleteHint,
                 emitEvent,
-                closeConnection,
+                signOut,
             }}
         >
             {children}
-        </AuthorizationContext.Provider>
+        </WebSocketContext.Provider>
     );
 }

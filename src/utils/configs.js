@@ -43,12 +43,12 @@ export const defaultUserDataValue = { messages: [], user: {} };
 
 export const eventsConfig = {
     connection: 'connection',
-    connected: 'connected',
+    autocomplete: 'autocomplete',
     authorization: 'authorization',
-    authorized: 'authorized',
-    newMessage: 'newMessage',
+    signOut: 'signOut',
+    incomingMessage: 'incomingMessage',
     sendMessage: 'sendMessage',
-    messageSent: 'messageSent',
+    error: 'error',
 };
 
 export const webSocketConfig = {
@@ -56,4 +56,43 @@ export const webSocketConfig = {
     options: {
         withCredentials: true,
     },
+};
+
+export const messageFormConfig = [
+    {
+        label: 'To:',
+        placeholder: 'Username',
+        id: 'receiver-input',
+        name: 'to',
+        required: true,
+        autocomplete: true,
+    },
+    {
+        label: 'Subject:',
+        placeholder: 'Subject',
+        id: 'subject-input',
+        name: 'subject',
+        required: true,
+        autocomplete: false,
+    },
+    {
+        label: 'Message:',
+        placeholder: '',
+        id: 'message-input',
+        name: 'message',
+        required: true,
+        rows: 4,
+        as: 'textarea',
+        size: 'lg',
+        autocomplete: false,
+    },
+];
+
+export const signInFormConfig = {
+    label: 'Your name:',
+    placeholder: 'Enter your name',
+    id: 'name-input',
+    name: 'name',
+    required: true,
+    size: 'lg',
 };

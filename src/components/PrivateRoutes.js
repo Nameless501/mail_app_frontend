@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { routesConfig } from '../utils/configs';
 import { Spinner, Container } from 'react-bootstrap';
-import { useAuthorizationContext } from '../contexts/AuthorizationContext';
+import { useWebSocketContext } from '../contexts/WebSocketContext';
 
 function PrivateRoutes() {
     const [isAllowed, setIsAllowed] = useState();
 
-    const { isAuthorized } = useAuthorizationContext();
+    const { isAuthorized } = useWebSocketContext();
 
     useEffect(() => {
         setIsAllowed(isAuthorized);

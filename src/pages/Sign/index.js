@@ -1,14 +1,19 @@
 import { Container, Stack } from 'react-bootstrap';
-import { useAuthorizationContext } from '../../contexts/AuthorizationContext';
+import { useWebSocketContext } from '../../contexts/WebSocketContext';
 import useFormStateAndValidation from '../../hooks/useFormStateAndValidation';
 import SignForm from './components/SignForm';
 import { defaultSignValues, eventsConfig } from '../../utils/configs';
 
 function Sign() {
-    const { emitEvent } = useAuthorizationContext();
+    const { emitEvent, autocompleteHint } = useWebSocketContext();
 
-    const { inputsValue, handleChange } =
-        useFormStateAndValidation(defaultSignValues);
+    const {
+        inputsValue,
+        formIsValid,
+        errorMessages,
+        setAutocomplete,
+        handleChange,
+    } = useFormStateAndValidation(defaultSignValues);
 
     function handleSubmit(evt) {
         evt.preventDefault();
@@ -22,7 +27,11 @@ function Sign() {
                 <SignForm
                     handleSubmit={handleSubmit}
                     inputsValue={inputsValue}
+                    setAutocomplete={setAutocomplete}
                     handleChange={handleChange}
+                    isValid={formIsValid}
+                    errors={errorMessages}
+                    options={autocompleteHint}
                 />
             </Container>
         </Stack>

@@ -1,24 +1,32 @@
-import { Card, Container } from 'react-bootstrap';
+import { Card, Container, Stack } from 'react-bootstrap';
 import { getFormattedDate } from '../../../utils/utils';
 
-function MessageCard({ subject, from, to, createdAt, place }) {
+function MessageCard({ subject, from, to, createdAt }) {
     return (
         <Card className="rounded-1 border-dark" style={{ overflow: 'hidden' }}>
             <Card.Body className="p-0">
-                <Container className="px-3 py-3 d-flex justify-content-between bg-light">
-                    <Card.Title className="mx-0 my-auto">
-                        <small className="text-muted">
-                            {place === 'inbox' ? 'From:' : 'To:'}
-                        </small>{' '}
-                        <strong>{place === 'inbox' ? from : to}</strong>
+                <Container className="px-3 py-2 d-flex bg-light justify-content-between">
+                    <Card.Title className="mx-0 my-auto d-flex-column">
+                        <Stack gap={2}>
+                            <Container className="p-0">
+                                <small className="text-muted">To:</small>{' '}
+                                <strong>{to}</strong>
+                            </Container>
+                            <Container className="p-0">
+                                <small className="text-muted">From:</small>{' '}
+                                <strong>{from}</strong>
+                            </Container>
+                        </Stack>
                     </Card.Title>
-                    <Card.Subtitle className="text-muted mx-0 my-auto">
-                        <small>{getFormattedDate(createdAt)}</small>
+                    <Card.Subtitle className="mx-0 my-auto align-self-center">
+                        <small className="h6">
+                            {getFormattedDate(createdAt)}
+                        </small>
                     </Card.Subtitle>
                 </Container>
-                <Card.Text className="p-3 mx-0 my-auto">
+                <Card.Text className="p-3 mx-0 my-auto text-center">
                     <small className="text-muted">Subject:</small>{' '}
-                    <span>{subject}</span>
+                    <strong className="h5">{subject}</strong>
                 </Card.Text>
             </Card.Body>
         </Card>

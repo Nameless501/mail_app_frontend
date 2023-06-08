@@ -1,11 +1,10 @@
 import { Col, Container, Navbar, Row } from 'react-bootstrap';
 import Logo from './Logo';
 import ProfileMenu from './ProfileMenu';
-import { useAuthorizationContext } from '../contexts/AuthorizationContext';
+import { useWebSocketContext } from '../contexts/WebSocketContext';
 
 function Header() {
-    const { userData, isAuthorized, closeConnection } =
-        useAuthorizationContext();
+    const { userData, isAuthorized, signOut } = useWebSocketContext();
 
     return (
         <header>
@@ -18,7 +17,7 @@ function Header() {
                         <Col className="my-auto col-auto">
                             {isAuthorized && (
                                 <ProfileMenu
-                                    handleClick={closeConnection}
+                                    handleClick={signOut}
                                     name={userData.user.name}
                                     disabled={false}
                                 />
