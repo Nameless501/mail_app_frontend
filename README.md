@@ -2,6 +2,8 @@
 
 <div align="center"><a href="https://mailappfrontend-production.up.railway.app">Ссылка на сайт</a></div>
 
+<div align="center"><a href="https://github.com/Nameless501/mail_app_api/tree/master">Репозиторий back-end</a></div>
+
 ---
 
 ### Описание:
