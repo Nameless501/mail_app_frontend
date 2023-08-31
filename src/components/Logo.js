@@ -8,7 +8,7 @@ function Logo() {
         <Link to={routesConfig.main}>
             <Navbar.Brand className="d-inline-block">
                 <Stack direction="horizontal" gap={2}>
-                    <span>Task 6</span>
+                    <span>Mail App</span>
                     <BsFillChatFill className="align-middle" />
                 </Stack>
             </Navbar.Brand>
